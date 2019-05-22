@@ -1,0 +1,2 @@
+rowid,RFID,datetime,GPS,birdWeight,foodWeight,temperature,humidity,windSpeed,airQuality,rain,video,picture1,picture2,picture3,picture4
+7,1111,07/05/19 09:10 19 PM,Redondo,19.0,4.0,72.0,9.0,4.0,97.0,2.0,1111/vid.mp4,1111/pic1.png,1111/pic2.png,1111/pic3.png,1111/pic4.png

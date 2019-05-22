@@ -1,0 +1,6 @@
+rowid,RFID,datetime,GPS,birdWeight,foodWeight,temperature,humidity,windSpeed,airQuality,rain,video,picture1,picture2,picture3,picture4
+1,5555,07/05/19 09:10 13 PM,Redondo,19.0,6.0,75.0,6.0,2.0,98.0,2.0,5555/vid.mp4,5555/pic1.png,5555/pic2.png,5555/pic3.png,5555/pic4.png
+3,5555,07/05/19 09:10 15 PM,Redondo,19.0,6.0,73.0,7.0,1.0,96.0,1.0,5555/vid.mp4,5555/pic1.png,5555/pic2.png,5555/pic3.png,5555/pic4.png
+4,5555,07/05/19 09:10 16 PM,Redondo,22.0,2.0,77.0,7.0,2.0,97.0,1.0,5555/vid.mp4,5555/pic1.png,5555/pic2.png,5555/pic3.png,5555/pic4.png
+6,5555,07/05/19 09:10 18 PM,Redondo,23.0,2.0,74.0,2.0,4.0,98.0,5.0,5555/vid.mp4,5555/pic1.png,5555/pic2.png,5555/pic3.png,5555/pic4.png
+8,5555,07/05/19 09:10 20 PM,Redondo,19.0,5.0,77.0,2.0,3.0,98.0,1.0,5555/vid.mp4,5555/pic1.png,5555/pic2.png,5555/pic3.png,5555/pic4.png

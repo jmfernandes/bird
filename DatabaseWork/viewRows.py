@@ -1,6 +1,7 @@
 import sqlite3
 import datetime as dt
 import time
+import csv
 """
 table name : birds
 
@@ -28,7 +29,6 @@ picture4     text
 connect = sqlite3.connect(r"test.db")
 cursor = connect.cursor()
 
-connect.commit()
 for row in cursor.execute("SELECT rowid, * FROM birds"):
     print(row)
 
