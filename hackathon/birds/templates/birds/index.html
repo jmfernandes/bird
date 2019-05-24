@@ -1,0 +1,10 @@
+<h1>List of all Feedings</h1>
+{% if latest_feeding_list %}
+    <ul>
+    {% for feeding in latest_feeding_list %}
+        <li><a href="{% url 'detail' feeding.id %}">{{ feeding.datetime }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
