@@ -33,7 +33,9 @@ hxcomp1= HX711(5, 6)
 #hxcomp2= HX711(13, 26)
 #hxbar1= HX711(4, 17)
 #hxbar2= HX711(27, 22)
-hxcomp1.set_reference_unit(440.3) #222.55892255
+# this value is different for every load cell, must be calculated by setting to 1, running the program, placing a known weight
+#(continued) on the scale and dividing the reading by the known weight.  I.e., if the reading is 90,000 when 200g is on the scale, the set_reference_unit should be 90,000/200=450
+hxcomp1.set_reference_unit(440.3) #222.55892255 
 hxcomp1.reset()
 hxcomp1.tare()
 #hxcomp2.set_reference_unit(1)
