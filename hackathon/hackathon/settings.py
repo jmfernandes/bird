@@ -30,7 +30,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = "y)@(^6^ow@kod7&n3ige$e*zl_r1gsir_+s3=_s)2$9sqc9tk)"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 

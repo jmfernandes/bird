@@ -1,11 +1,16 @@
-<h1>{{ feeding.RFID }} - {{feeding.datetime}}</h1>
-<ul>
-<li>GPS - {{ feeding.GPS }}</li>
-<li>bird weight - {{ feeding.birdweight }}</li>
-<li>food weight - {{ feeding.foodweight }}</li>
-<li>temperature - {{ feeding.temperature }}</li>
-<li>humidity - {{ feeding.humidity }}</li>
-<li>wind speed - {{ feeding.windspeed }}</li>
-<li>air quality - {{ feeding.airquality }}</li>
-<li>rainfall amount - {{ feeding.rain }}</li>
-</ul>
+<h1>Feeding Data</h1>
+<!-- <h1>{{ feeding.RFID }} - {{feeding.datetime}}</h1> -->
+<!-- <ul>
+{% for name, value in feeding.items %}
+    <li>{{ name }} - {{ value }}</li>
+{% endfor %}
+</ul> -->
+
+<table summary="no_orderDate">
+<tr><th>Column Name</th><th>Column Value</th>
+{% for name,value in feeding.items %}
+  <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
+{% endfor %}
+</table>
+
+<h1><a href="{% url 'birds:index'%}">go back to list of feedings</a></h1>

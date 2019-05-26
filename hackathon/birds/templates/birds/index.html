@@ -1,10 +1,14 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'birds/style.css' %}">
 <h1>List of all Feedings</h1>
 {% if latest_feeding_list %}
-    <ul>
+    <table summary="no_orderDate">
     {% for feeding in latest_feeding_list %}
-        <li><a href="{% url 'detail' feeding.id %}">{{ feeding.datetime }}</a></li>
+      <tr><td><li><a href="{% url 'birds:detail' feeding.id %}">{{ feeding.datetime }}</a></li></td><td><a id = "delete" href="{% url 'birds:delete' feeding.id %}">delete entry</a></td></tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
-    <p>No polls are available.</p>
+    <p>No Feedings are available.</p>
 {% endif %}
+
+<h1><a href="{% url 'birds:vote'%}">Create a new entry</a></h1>
