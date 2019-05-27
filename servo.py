@@ -1,3 +1,6 @@
+#Matt: 5/27/2019: This code isn't very useful becasue wiringpi is a pain to install.  GPIO, which is on all
+#python and Pis automatically also has a pwm command that is just as useful.
+
 # Servo Control
 import time
 import wiringpi
