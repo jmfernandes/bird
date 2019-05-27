@@ -1,0 +1,7 @@
+This describes the bare minimum required to run these files.
+
+1. You must enable 
+1.1 Camera
+1.2 SPI
+1.3 I2C
+1.4
