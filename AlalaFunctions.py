@@ -21,7 +21,7 @@ def checkRFID():
         
 #Create the exit function ahead of time.
 def cleanAndExit(A):
-    print "Cleaning..." #so you know the exit function ran
+    print("Cleaning...") #so you know the exit function ran
     GPIO.cleanup() #prevents an error occuring when you run GPIO again or in another program
     X = A[0:-1] #Create Array C, that is all the values of A except for the last one
     B=len(X) #Create List B, that is equal to the length of C
@@ -33,10 +33,10 @@ def cleanAndExit(A):
         for n in range(1,B):
             yi=(Y[n-1]+X[n]*dt*omega)/(1+omega*dt)
             Y.append(yi)
-        print (Y[B-1])
+        print(Y[B-1])
         birdWeight = sum(X)/B #Find the average weight by dividing the sum of C by the length of C (which is B)
-        print birdWeight 
-        #print Y    
-    print "Bye!"
+        print(birdWeight) 
+        #print(Y)   
+    print("Bye!")
     sys.exit()
     

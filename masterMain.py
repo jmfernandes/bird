@@ -36,7 +36,7 @@ hxcomp1.tare()
 #hxcomp2.set_reference_unit(1)
 #hxcomp2.reset()
 #hxcomp2.tare()
-print "Tare done! Add weight now..."
+print("Tare done! Add weight now...")
 A=[]
 id=[]
 #val = hxcomp1.get_weight(5)
@@ -48,7 +48,7 @@ while True:
         val= int(hxcomp1.get_weight(5))
         
         if val < 101:
-            print val
+            print(val)
             time.sleep(0.1)
         if val > 100:
             checkRFID(id)

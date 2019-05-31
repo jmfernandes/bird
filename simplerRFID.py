@@ -9,9 +9,9 @@ def checkRFID(id,text):
     t_end=time.time() + 3
     while time.time() < t_end:
         id,text = reader.read()
-        print t_end
+        print(t_end)
         print('it ended')
-    print id
+    print(id)
     
     
 
