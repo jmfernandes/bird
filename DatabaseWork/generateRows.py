@@ -55,7 +55,7 @@ for i in range(10):
     cursor.execute("INSERT INTO birds VALUES('{0}','{1}','{2}',{3},{4},{5},{6},{7},{8},{9},'{10}','{11}','{12}','{13}','{14}')".format(
                              bird,timeString,"Redondo",birdWeight,foodWeight,temperature,humidity,windSpeed,airQuality,rain,
                              bird+"/vid.mp4",bird+"/pic1.png",bird+"/pic2.png",bird+"/pic3.png",bird+"/pic4.png"))
-    
+
 
 
 #cursor.execute("INSERT INTO bird VALUES(45,'text')")

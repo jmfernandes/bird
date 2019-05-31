@@ -1,10 +1,6 @@
+{% extends "birds/base.html" %}
+{% block content %}
 <h1>Feeding Data</h1>
-<!-- <h1>{{ feeding.RFID }} - {{feeding.datetime}}</h1> -->
-<!-- <ul>
-{% for name, value in feeding.items %}
-    <li>{{ name }} - {{ value }}</li>
-{% endfor %}
-</ul> -->
 
 <table summary="no_orderDate" border="1">
 <thead style="display:block">
@@ -13,5 +9,4 @@
   <tr><td style="padding-right:20px">{{ name }}</td><td style="padding-right:10px">{{ value }}</td></tr>
 {% endfor %}
 </table>
-
-<h1><a href="{% url 'birds:index'%}">go back to list of feedings</a></h1>
+{% endblock %}
