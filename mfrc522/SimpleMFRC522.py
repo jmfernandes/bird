@@ -2,6 +2,7 @@
 
 from . import MFRC522
 import RPi.GPIO as GPIO
+import datetime
   
 class SimpleMFRC522:
 
@@ -14,9 +15,17 @@ class SimpleMFRC522:
     self.READER = MFRC522()
   
   def read(self):
+      timeOld = datetime.datetime.now()
       id, text = self.read_no_block()
+      timeToWait = 5; #in seconds
+      print("looking for RFID")
       while not id:
           id, text = self.read_no_block()
+          
+          if ((datetime.datetime.now()-timeOld).total_seconds() > timeToWait):
+              print("RFID NOT FOUND")
+              break
+      print("FOUND IT")
       return id, text
 
   def read_id(self):

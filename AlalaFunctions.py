@@ -14,8 +14,9 @@ def checkRFID():
     reader = SimpleMFRC522()
     try:
         id, text = reader.read()
-        takePicture(id)
-        useServo()
+        if id:
+            takePicture(id)
+            useServo()
     finally:
         GPIO.cleanup()
         

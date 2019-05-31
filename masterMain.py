@@ -23,6 +23,9 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
+dataDict = {}
+dataDict[''] =
+
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
 #hxcomp2= HX711(13, 26)
@@ -38,10 +41,12 @@ hxcomp1.tare()
 #hxcomp2.tare()
 print("Tare done! Add weight now...")
 A=[]
-id=[]
+id=None
 #val = hxcomp1.get_weight(5)
 #        val2 = int(hxcomp2.get_weight(5))
 #print val
+
+reader = SimpleMFRC522()
 
 while True:
     try:
@@ -51,8 +56,8 @@ while True:
             print(val)
             time.sleep(0.1)
         if val > 100:
-            checkRFID(id)
-            if id > 0:
+            id,text = reader.read()
+            if id:
                 actuateServo(100)
                 print ('loopstart')
                 for n in range(1,30):
@@ -61,7 +66,7 @@ while True:
                     sleep(.1)
                 print ('loopend')
                 actuateServo(20)
-                sys.exit()
+                #sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
         cleanAndExit(A)
