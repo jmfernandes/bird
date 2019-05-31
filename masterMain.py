@@ -15,6 +15,7 @@ from BirdVideo import TakeVideo
 import os
 import time
 import sys
+from WriteAllToWebsite import write_to_databases
 from hx711 import HX711
 #Important, must run "git clone https://github.com/tatobari/hx711py in command window and place the HX711.py file
 #in the same folder as this file in order for it to run.  It will not work without the HX711.py file.
@@ -23,8 +24,24 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
+dataList = []
+
 dataDict = {}
-dataDict[''] =
+dataDict['RFID'] = "None"
+dataDict['datetime'] = "1970-01-01 00:00"
+dataDict['GPS'] = "None"
+dataDict['temperature'] = -1
+dataDict['hopperWeight'] = -1
+dataDict['birdWeight'] = -1
+dataDict['consumedWeight'] = -1
+dataDict['rain'] = -1
+dataDict['video'] = "None"
+dataDict['overhead1'] = "None"
+dataDict['overhead2'] = "None"
+dataDict['left1'] = "None"
+dataDict['left2'] = "None"
+dataDict['right1'] = "None"
+dataDict['right2'] = "None"
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
@@ -58,6 +75,7 @@ while True:
         if val > 100:
             id,text = reader.read()
             if id:
+                dataDict['RFID']=id
                 actuateServo(100)
                 print ('loopstart')
                 for n in range(1,30):
@@ -66,9 +84,13 @@ while True:
                     sleep(.1)
                 print ('loopend')
                 actuateServo(20)
-                #sys.exit()
+                print(dataDict)
+                #APPEND TO LIST
+                dataList.append(dataDict)
+                sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
+        write_to_databases(dataList)
         cleanAndExit(A)
 
 
