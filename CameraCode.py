@@ -14,7 +14,7 @@ height = 480
 
 ################################################################
 #USB Camera 1 
-def TakeUSBPicture1(RFID):
+def TakeUSBPicture1(RFID,timeStamp):
     try:
         #initialise pygame   
         pygame.init()
@@ -26,7 +26,7 @@ def TakeUSBPicture1(RFID):
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = 'RFID{}_Camera1.jpg'.format(RFID)
+        fileString = 'RFID{0}time{1}_Camera1.jpg'.format(RFID,timeStamp)
         pygame.image.save(image,fileString)
         return(fileString)
     except:

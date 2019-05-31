@@ -6,13 +6,13 @@ from mfrc522 import SimpleMFRC522
 #Import Alala-specific functions
 from AlalaFunctions import cleanAndExit
 from AlalaFunctions import checkRFID
+from AlalaFunctions import lowPassFilter
 from servo1 import actuateServo
-from CameraCode import TakeUSBPicture1
-from CameraCode import TakeUSBPicture2
-from CameraCode import TakePiPicture
+from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
 from BirdVideo import TakeVideo
 import os
 import time
+import random
 import sys
 from WriteAllToWebsite import write_to_databases
 from hx711 import HX711
@@ -26,14 +26,14 @@ import sys
 dataList = []
 
 dataDict = {}
-dataDict['RFID'] = "None"
-dataDict['datetime'] = "1970-01-01 00:00"
-dataDict['GPS'] = "None"
-dataDict['temperature'] = -1
-dataDict['hopperWeight'] = -1
-dataDict['birdWeight'] = -1
+dataDict['RFID'] = random.choice(["steve", "bob", "josh"])
+dataDict['datetime'] = time.time()
+dataDict['GPS'] = random.choice(["hawaii","Hilo Hawaii", "Kona Hawaii"])
+dataDict['temperature'] = random.randint(65,100)
+dataDict['hopperWeight'] = random.randint(10,1000)
+dataDict['birdWeight'] = random.randint(350,750)
 dataDict['consumedWeight'] = -1
-dataDict['rain'] = -1
+dataDict['rain'] = random.randint(0,2)
 dataDict['video'] = "None"
 dataDict['overhead1'] = "None"
 dataDict['overhead2'] = "None"
@@ -82,6 +82,8 @@ while True:
                     A.append(val)
                     sleep(.1)
                 print ('loopend')
+                dataDict['birdWeight']=lowPassFilter(A)
+                dataDict['overhead1'] = TakeUSBPicture1(id,dataDict['datetime'])
                 actuateServo(20)
                 print(dataDict)
                 #APPEND TO LIST
@@ -90,7 +92,7 @@ while True:
 
     except (KeyboardInterrupt,SystemExit):
         #write_to_databases(dataList)
-        cleanAndExit(A)
+        cleanAndExit()
 
 
 
