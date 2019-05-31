@@ -3,16 +3,23 @@ from time import sleep
 import serial
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
+#Import Alala-specific functions
 from AlalaFunctions import cleanAndExit
 from AlalaFunctions import checkRFID
 from servo1 import actuateServo
-from Camera import takeUSBPicture1
-from simpleRFID import checkRFID
+from simplerRFID import checkRFID
+from CameraCode import TakeUSBPicture1
+from CameraCode import TakeUSBPicture2
+from CameraCode import TakePiPicture
+from BirdVideo import TakeVideo
+
+
+
 import os
 import time
 import sys
 from hx711 import HX711
-#Importatnt, must run "git clone https://github.com/tatobari/hx711py in command window and place the HX711.py file
+#Important, must run "git clone https://github.com/tatobari/hx711py in command window and place the HX711.py file
 #in the same folder as this file in order for it to run.  It will not work without the HX711.py file.
 
 import RPi.GPIO as GPIO
@@ -34,7 +41,7 @@ hxcomp1.tare()
 #hxcomp2.tare()
 print "Tare done! Add weight now..."
 A=[]
-id=[]
+id=-1
 #val = hxcomp1.get_weight(5)
 #        val2 = int(hxcomp2.get_weight(5))
 #print val
@@ -43,11 +50,12 @@ while True:
     try:
         val= int(hxcomp1.get_weight(5))
         
-        if val < 101:
+        if val < 201:
             print val
             time.sleep(0.1)
-        if val > 100:
-            checkRFID(id)
+        if val > 200:
+            text='blue'
+            checkRFID(id,text)
             if id > 0:
                 actuateServo(100)
                 print ('loopstart')
@@ -56,8 +64,13 @@ while True:
                     A.append(val)
                     sleep(.1)
                 print ('loopend')
-                #takeUSBPicture1()
-                #takeVideo(10)
+##                TakeUSBPicture1()
+##                TakeUSBPicture2()
+##                TakePiPicture()
+##                TakeUSBPicture1()
+##                TakeUSBPicture2()
+##                TakePiPicture()
+                TakeVideo()                              
                 actuateServo(20)
                 sys.exit()
 
