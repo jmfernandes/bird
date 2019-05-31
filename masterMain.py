@@ -7,7 +7,6 @@ from mfrc522 import SimpleMFRC522
 from AlalaFunctions import cleanAndExit
 from AlalaFunctions import checkRFID
 from servo1 import actuateServo
-from simplerRFID import checkRFID
 from CameraCode import TakeUSBPicture1
 from CameraCode import TakeUSBPicture2
 from CameraCode import TakePiPicture
@@ -90,7 +89,7 @@ while True:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        write_to_databases(dataList)
+        #write_to_databases(dataList)
         cleanAndExit(A)
 
 
