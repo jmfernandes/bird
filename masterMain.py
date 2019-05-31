@@ -12,9 +12,6 @@ from CameraCode import TakeUSBPicture1
 from CameraCode import TakeUSBPicture2
 from CameraCode import TakePiPicture
 from BirdVideo import TakeVideo
-
-
-
 import os
 import time
 import sys
@@ -41,7 +38,7 @@ hxcomp1.tare()
 #hxcomp2.tare()
 print "Tare done! Add weight now..."
 A=[]
-id=-1
+id=[]
 #val = hxcomp1.get_weight(5)
 #        val2 = int(hxcomp2.get_weight(5))
 #print val
@@ -50,12 +47,11 @@ while True:
     try:
         val= int(hxcomp1.get_weight(5))
         
-        if val < 201:
+        if val < 101:
             print val
             time.sleep(0.1)
-        if val > 200:
-            text='blue'
-            checkRFID(id,text)
+        if val > 100:
+            checkRFID(id)
             if id > 0:
                 actuateServo(100)
                 print ('loopstart')
@@ -64,13 +60,6 @@ while True:
                     A.append(val)
                     sleep(.1)
                 print ('loopend')
-##                TakeUSBPicture1()
-##                TakeUSBPicture2()
-##                TakePiPicture()
-##                TakeUSBPicture1()
-##                TakeUSBPicture2()
-##                TakePiPicture()
-                TakeVideo()                              
                 actuateServo(20)
                 sys.exit()
 

@@ -12,7 +12,6 @@ p1 = GPIO.PWM(servoPin, 50) #sets 50hz frequency for servoPin
 def actuateServo(angle):
 #    GPIO.output(servoPin,True)
     p1.start(7.5) #7.5% duty cycle means 1.5ms out of 20ms means 90 deg or neutral for servo
-    sleep(1)
     duty = 2.5 + angle / 18 #2.5 = 0 deg, 12.5 = 180
     p1.ChangeDutyCycle(duty)
     sleep(1)
