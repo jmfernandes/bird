@@ -83,6 +83,9 @@ while True:
                 dataDict['birdWeight']=lowPassFilter(A)
                 dataDict['filePath'] = TakeUSBPicture1(id,timeString)
                 actuateServo(20)
+                #DO LOTS OF STUFF
+                #call the averaging function to determine when bird leaves and then continue
+                dataDict['consumedDuration'] = (dt.datetime.now()-currentTime).total_seconds()
                 print(dataDict)
                 #APPEND TO LIST
                 dataList.append(dataDict)
