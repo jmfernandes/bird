@@ -38,11 +38,11 @@ def write_to_databases(websiteList):
         websiteData["rain"],
         websiteData["rain"],
         websiteData["rain"],
-        websiteData["video"],
-        websiteData["left1"],
-        websiteData["left2"],
-        websiteData["right1"],
-        websiteData["right2"]))
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"]))
 
         #write to the website
         myString = "https://alalacrow.herokuapp.com/enter/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}".format(
@@ -56,11 +56,11 @@ def write_to_databases(websiteList):
         websiteData["rain"],
         websiteData["rain"],
         websiteData["rain"],
-        websiteData["video"],
-        websiteData["left1"],
-        websiteData["left2"],
-        websiteData["right1"],
-        websiteData["right2"])
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"],
+        websiteData["filePath"])
         r = requests.get(myString)
     
     connect.commit()

@@ -13,6 +13,7 @@ from BirdVideo import TakeVideo
 import os
 import time
 import random
+import datetime as dt
 import sys
 from WriteAllToWebsite import write_to_databases
 from hx711 import HX711
@@ -27,20 +28,14 @@ dataList = []
 
 dataDict = {}
 dataDict['RFID'] = random.choice(["steve", "bob", "josh"])
-dataDict['datetime'] = time.time()
+dataDict['datetime'] = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 dataDict['GPS'] = random.choice(["hawaii","Hilo Hawaii", "Kona Hawaii"])
 dataDict['temperature'] = random.randint(65,100)
 dataDict['hopperWeight'] = random.randint(10,1000)
 dataDict['birdWeight'] = random.randint(350,750)
 dataDict['consumedWeight'] = -1
 dataDict['rain'] = random.randint(0,2)
-dataDict['video'] = "None"
-dataDict['overhead1'] = "None"
-dataDict['overhead2'] = "None"
-dataDict['left1'] = "None"
-dataDict['left2'] = "None"
-dataDict['right1'] = "None"
-dataDict['right2'] = "None"
+dataDict['filePath'] = "None"
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
@@ -67,7 +62,8 @@ reader = SimpleMFRC522()
 while True:
     try:
         val= int(hxcomp1.get_weight(5))
-        
+        currentTime=dt.datetime.now()
+        timeString = currentTime.strftime('%Y-%m-%d %H:%M:%S')
         if val < 101:
             print(val)
             time.sleep(0.1)
@@ -82,8 +78,9 @@ while True:
                     A.append(val)
                     sleep(.1)
                 print ('loopend')
+                dataDict['datetime']= timeString
                 dataDict['birdWeight']=lowPassFilter(A)
-                dataDict['overhead1'] = TakeUSBPicture1(id,dataDict['datetime'])
+                dataDict['filePath'] = TakeUSBPicture1(id,timeString)
                 actuateServo(20)
                 print(dataDict)
                 #APPEND TO LIST
