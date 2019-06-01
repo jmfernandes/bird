@@ -30,14 +30,14 @@ dataDict = {}
 dataDict['RFID'] = random.choice(["steve", "bob", "josh"])
 dataDict['datetime'] = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 dataDict['GPS'] = random.choice(["hawaii","Hilo Hawaii", "Kona Hawaii"])
-dataDict['temperature'] = random.randint(65,100)
+dataDict['hopperName'] = "Ala'la Carte Diner"
 dataDict['hopperWeight'] = random.randint(10,1000)
 dataDict['birdWeight'] = random.randint(350,750)
-dataDict['consumedDuration'] = random.randint(10,1000)
-dataDict['consumedWeight'] = -1
-dataDict['rain'] = random.randint(0,2)
+dataDict['feedingDuration'] = random.randint(10,1000)
+dataDict['feedingAmount'] = -1
+dataDict['temperature'] = random.randint(65,100)
+dataDict['rainAmount'] = random.randint(0,2)
 dataDict['filePath'] = "None"
-dataDict['feederName'] = "Ala'la Carte Diner"
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
@@ -46,7 +46,7 @@ hxcomp1= HX711(5, 6)
 #hxbar2= HX711(27, 22)
 # this value is different for every load cell, must be calculated by setting to 1, running the program, placing a known weight
 #(continued) on the scale and dividing the reading by the known weight.  I.e., if the reading is 90,000 when 200g is on the scale, the set_reference_unit should be 90,000/200=450
-hxcomp1.set_reference_unit(440.3) #222.55892255 
+hxcomp1.set_reference_unit(440.3) #222.55892255
 hxcomp1.reset()
 hxcomp1.tare()
 #hxcomp2.set_reference_unit(1)
@@ -95,12 +95,3 @@ while True:
     except (KeyboardInterrupt,SystemExit):
         #write_to_databases(dataList)
         cleanAndExit()
-
-
-
-
-
-
-
-
-

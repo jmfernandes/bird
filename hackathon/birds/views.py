@@ -82,9 +82,9 @@ def delete(request, feeding_id):
     feeding.delete()
     return HttpResponseRedirect(reverse('birds:clear'))
 
-def enter(rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath):
+def enter(request,rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath):
     enterValue(rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath)
-    return HttpResponse('')
+    return HttpResponse('success')
 
 def retrieve(request):
     myList = Feeding.objects.values_list('RFID', flat=True).order_by('RFID').distinct()
