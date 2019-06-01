@@ -26,7 +26,7 @@ def TakeUSBPicture1(RFID,timeStamp):
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = 'RFID{0}time{1}_Camera1.jpg'.format(RFID,timeStamp)
+        fileString = 'RFID{0}_Camera1.jpg'.format(RFID,timeStamp)
         pygame.image.save(image,fileString)
         return(fileString)
     except:

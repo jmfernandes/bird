@@ -37,6 +37,7 @@ dataDict['consumedDuration'] = random.randint(10,1000)
 dataDict['consumedWeight'] = -1
 dataDict['rain'] = random.randint(0,2)
 dataDict['filePath'] = "None"
+dataDict['feederName'] = "Ala'la Carte Diner"
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
