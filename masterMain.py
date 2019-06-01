@@ -33,6 +33,7 @@ dataDict['GPS'] = random.choice(["hawaii","Hilo Hawaii", "Kona Hawaii"])
 dataDict['temperature'] = random.randint(65,100)
 dataDict['hopperWeight'] = random.randint(10,1000)
 dataDict['birdWeight'] = random.randint(350,750)
+dataDict['consumedDuration'] = random.randint(10,1000)
 dataDict['consumedWeight'] = -1
 dataDict['rain'] = random.randint(0,2)
 dataDict['filePath'] = "None"
