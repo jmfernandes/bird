@@ -6,7 +6,17 @@
 <thead style="display:block">
 <tr><th>Name</th><th>Value</th>
 {% for name,value in feeding.items %}
-  <tr><td style="padding-right:20px">{{ name }}</td><td style="padding-right:10px">{{ value }}</td></tr>
+  {% ifequal name 'filepath' %}
+    {% ifequal value 'None' %}
+      <tr><td style="padding-right:20px">File Path</td><td style="padding-right:10px">{{ value }}</td></tr>
+    {% else %}
+      <tr><td style="padding-right:20px">File Path</td><td style="padding-right:10px"><a href="#">link</a></td></tr>
+    {% endifequal %}
+  {% else %}
+      <tr><td style="padding-right:20px">{{ name }}</td><td style="padding-right:10px">{{ value }}</td></tr>
+  {% endifequal %}
+
+
 {% endfor %}
 </table>
 {% endblock %}
