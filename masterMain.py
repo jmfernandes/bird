@@ -72,6 +72,7 @@ GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def my_callback(channel):
     # stop detection for 5 sec
+    print('Callback')
     GPIO.remove_event_detect(7)
     upload_data_to_database(dataList)
     convert_database_to_csv()
