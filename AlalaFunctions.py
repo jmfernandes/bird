@@ -19,14 +19,14 @@ def checkRFID():
             useServo()
     finally:
         GPIO.cleanup()
-        
+
 #Create the exit function ahead of time.
 def cleanAndExit():
     print("Cleaning...") #so you know the exit function ran
     GPIO.cleanup() #prevents an error occuring when you run GPIO again or in another program
     print("Bye!")
-    sys.exit()
-    
+    # sys.exit()
+
 def lowPassFilter(weightdata):
     X = weightdata[0:-1] #Create Array C, that is all the values of A except for the last one because the last value is zero sometimes
     B=len(X) #Create List B, that is equal to the length of X
@@ -40,7 +40,7 @@ def lowPassFilter(weightdata):
             filterweight.append(yi)
         print(filterweight[B-1])
         return filterweight[B-1]
-    
+
 def averageWeight(weightdata1):
     X = weightdata1[0:-1] #Create Array C, that is all the values of A except for the last one because the last value is zero sometimes
     B=len(X) #Create List B, that is equal to the length of X

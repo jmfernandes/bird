@@ -113,3 +113,4 @@ while running:
         upload_images_to_database(dataList)
         #write_to_databases(dataList)
         cleanAndExit()
+        running = False
