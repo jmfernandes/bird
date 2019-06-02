@@ -10,7 +10,7 @@
     {% ifequal value 'None' %}
       <tr><td style="padding-right:20px">File Path</td><td style="padding-right:10px">{{ value }}</td></tr>
     {% else %}
-      <tr><td style="padding-right:20px">File Path</td><td style="padding-right:10px"><a href="#">link</a></td></tr>
+      <tr><td style="padding-right:20px">File Path</td><td style="padding-right:10px"><a href="{{ value }}">link</a></td></tr>
     {% endifequal %}
   {% else %}
       <tr><td style="padding-right:20px">{{ name }}</td><td style="padding-right:10px">{{ value }}</td></tr>
