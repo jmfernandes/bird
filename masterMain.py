@@ -106,6 +106,6 @@ while True:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        #upload_images_to_database(dataList)
+        upload_images_to_database(dataList)
         #write_to_databases(dataList)
         cleanAndExit()
