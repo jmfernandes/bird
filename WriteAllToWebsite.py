@@ -52,7 +52,7 @@ def upload_images_to_database(websiteList):
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-        if (websiteData['LeftSideCamera2'] != "None")
+        if (websiteData['OverheadCamera2'] != "None")
             f = open(websiteData['OverheadCamera2'])
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
