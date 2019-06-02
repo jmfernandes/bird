@@ -18,7 +18,7 @@ rainamount      real
 filepath        text
 """
 
-def upload_images_to_database(websiteList):
+def upload_images_to_dropbox(websiteList):
     accessCode = 'pPgmIezcgqAAAAAAAAAAC9j36rWwsmEMbmqzghkGS7tamdM29obAqzux2bh-C2Tw'
     dbx = dropbox.Dropbox(accessCode)
     for websiteData in websiteList:
@@ -58,7 +58,7 @@ def upload_images_to_database(websiteList):
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-def write_to_databases(websiteList):
+def upload_data_to_database(websiteList):
     connect = sqlite3.connect(r"./DatabaseWork/test.db")
     cursor = connect.cursor()
 
@@ -77,6 +77,11 @@ def write_to_databases(websiteList):
         websiteData["rainAmount"],
         websiteData["filePath"]))
 
+    connect.commit()
+    connect.close()
+
+def upload_data_to_website(websiteList):
+    for websiteData in websiteList:
         #write to the website
         myString = "https://alalacrow.herokuapp.com/enter/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}".format(
         websiteData["RFID"],
@@ -91,8 +96,3 @@ def write_to_databases(websiteList):
         websiteData["rainAmount"],
         websiteData["filePath"])
         r = requests.get(myString)
-
-    connect.commit()
-    connect.close()
-
-    return None

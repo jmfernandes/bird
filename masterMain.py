@@ -1,31 +1,30 @@
-from picamera import PiCamera
-from time import sleep
-import serial
-import RPi.GPIO as GPIO
-from mfrc522 import SimpleMFRC522
-#Import Alala-specific functions
-from AlalaFunctions import cleanAndExit
-from AlalaFunctions import checkRFID
-from AlalaFunctions import lowPassFilter
-from servo1 import actuateServo
-from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
-from BirdVideo import TakeVideo
+#=================================== Headers ===================================#
+# Import python functions
 import os
 import time
 import random
 import datetime as dt
 import sys
-from WriteAllToWebsite import write_to_databases, upload_images_to_database
+import serial
+import RPi.GPIO as GPIO
+# Import third-party functions
+from mfrc522 import SimpleMFRC522
 from hx711 import HX711
+from picamera import PiCamera
+# Import local funcions
+from DatabaseWork.DatabaseFunctions import convert_database_to_csv
+from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter
+from servo1 import actuateServo
+from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
+from BirdVideo import TakeVideo
+from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
+#===============================================================================#
+
 #Important, must run "git clone https://github.com/tatobari/hx711py in command window and place the HX711.py file
 #in the same folder as this file in order for it to run.  It will not work without the HX711.py file.
 
-import RPi.GPIO as GPIO
-import time
-import sys
-
+#======================= Set up data list and dictionary =======================#
 dataList = []
-
 dataDict = {}
 dataDict['RFID'] = random.choice(["steve", "bob", "josh"])
 dataDict['datetime'] = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -44,6 +43,7 @@ dataDict['LeftSideCamera1'] = "None"
 dataDict['LeftSideCamera2'] = "None"
 dataDict['OverheadCamera1'] = "None"
 dataDict['OverheadCamera2'] = "None"
+#===============================================================================#
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
@@ -59,19 +59,32 @@ hxcomp1.tare()
 #hxcomp2.reset()
 #hxcomp2.tare()
 print("Tare done! Add weight now...")
-A=[]
-id=None
-#val = hxcomp1.get_weight(5)
-#        val2 = int(hxcomp2.get_weight(5))
-#print val
 
+#============================ Initialize Parameters ============================#
+A = []
+id = None
 reader = SimpleMFRC522()
 running = True
+#===============================================================================#
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+def my_callback(channel):
+    # stop detection for 5 sec
+    GPIO.remove_event_detect(7)
+    upload_data_to_database(dataList)
+    convert_database_to_csv()
+    #
+    sleep(5)
+    GPIO.add_event_detect(7, GPIO.RISING, callback=my_callback, bouncetime=300)
+
+GPIO.add_event_detect(7, GPIO.RISING, callback=my_callback, bouncetime=300)
 
 while running:
     try:
-        val= int(hxcomp1.get_weight(5))
-        currentTime=dt.datetime.now()
+        val = int(hxcomp1.get_weight(5))
+        currentTime = dt.datetime.now()
         timeString = currentTime.strftime('%Y-%m-%d %H:%M:%S')
         if (val < 0):
             print("value of {} - improper tare".format(val))
@@ -88,7 +101,7 @@ while running:
                 for n in range(1,30):
                     val = hxcomp1.get_weight(1)
                     A.append(val)
-                    sleep(.1)
+                    time.sleep(.1)
                 print ('loopend')
                 dataDict['datetime']= timeString
                 dataDict['birdWeight']=lowPassFilter(A)
@@ -110,8 +123,11 @@ while running:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        upload_images_to_database(dataList)
-        #write_to_databases(dataList)
+        #upload_images_to_dropbox(dataList)
+        #upload_data_to_database(dataList)
+        #upload_data_to_website(dataList)
         #cleanAndExit()
-        GPIO.cleanup() 
+        GPIO.cleanup()
         running = False
+
+print("program finished")

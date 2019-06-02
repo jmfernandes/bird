@@ -44,6 +44,8 @@ def lowPassFilter(weightdata):
 def averageWeight(weightdata1):
     X = weightdata1[0:-1] #Create Array C, that is all the values of A except for the last one because the last value is zero sometimes
     B=len(X) #Create List B, that is equal to the length of X
-    if B > 2:
+    if B > 0:
         weight = sum(X)/B
-        return weight
+    else:
+        weight = 0
+    return weight
