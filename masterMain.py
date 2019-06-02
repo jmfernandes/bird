@@ -66,16 +66,20 @@ id=None
 #print val
 
 reader = SimpleMFRC522()
+running = True
 
-while True:
+while running:
     try:
         val= int(hxcomp1.get_weight(5))
         currentTime=dt.datetime.now()
         timeString = currentTime.strftime('%Y-%m-%d %H:%M:%S')
-        if val < 101:
-            print(val)
+        if (val < 0):
+            print("value of {} - improper tare".format(val))
             time.sleep(0.1)
-        if val > 100:
+        elif (val <= 100):
+            print("value of {}".format(val))
+            time.sleep(0.1)
+        else:
             id,text = reader.read()
             if id:
                 dataDict['RFID']=id
