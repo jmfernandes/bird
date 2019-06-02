@@ -90,12 +90,12 @@ while True:
                 dataDict['birdWeight']=lowPassFilter(A)
                 #take pictures
                 dataDict['filePath'] = 'https://www.dropbox.com/home/media/{}/{}'.format(id,timeString)
-                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,1)
-                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,2)
-                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,1)
-                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,2)
-                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,1)
-                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,2)
+                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
+                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
+                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
+                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
+                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
+                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
                 actuateServo(20)
                 #DO LOTS OF STUFF
                 #call the averaging function to determine when bird leaves and then continue
