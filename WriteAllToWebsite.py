@@ -20,9 +20,8 @@ filepath        text
 
 def upload_images_to_database(websiteList):
     accessCode = 'pPgmIezcgqAAAAAAAAAAC9j36rWwsmEMbmqzghkGS7tamdM29obAqzux2bh-C2Tw'
+    dbx = dropbox.Dropbox(accessCode)
     for websiteData in websiteList:
-        dbx = dropbox.Dropbox(accessCode)
-
         if (websiteData['RightSideCamera1'] != "None"):
             f = open(websiteData['RightSideCamera1'])
             fdata = f.read()
