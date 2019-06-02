@@ -15,7 +15,7 @@ import time
 import random
 import datetime as dt
 import sys
-from WriteAllToWebsite import write_to_databases
+from WriteAllToWebsite import write_to_databases, upload_images_to_database
 from hx711 import HX711
 #Important, must run "git clone https://github.com/tatobari/hx711py in command window and place the HX711.py file
 #in the same folder as this file in order for it to run.  It will not work without the HX711.py file.
@@ -38,6 +38,12 @@ dataDict['feedingAmount'] = random.randit(1,20)
 dataDict['temperature'] = random.randint(65,100)
 dataDict['rainAmount'] = random.randint(0,2)
 dataDict['filePath'] = "None"
+dataDict['RightSideCamera1'] = "None"
+dataDict['RightSideCamera2'] = "None"
+dataDict['LeftSideCamera1'] = "None"
+dataDict['LeftSideCamera2'] = "None"
+dataDict['OverheadCamera1'] = "None"
+dataDict['OverheadCamera2'] = "None"
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
 hxcomp1= HX711(5, 6)
@@ -82,7 +88,14 @@ while True:
                 print ('loopend')
                 dataDict['datetime']= timeString
                 dataDict['birdWeight']=lowPassFilter(A)
+                #take pictures
                 dataDict['filePath'] = 'https://www.dropbox.com/home/media/{}/{}'.format(id,timeString)
+                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,1)
+                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,2)
+                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,1)
+                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,2)
+                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,1)
+                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,2)
                 actuateServo(20)
                 #DO LOTS OF STUFF
                 #call the averaging function to determine when bird leaves and then continue
@@ -93,5 +106,6 @@ while True:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
+        #upload_images_to_database(dataList)
         #write_to_databases(dataList)
         cleanAndExit()

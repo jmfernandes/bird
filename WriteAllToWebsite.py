@@ -17,6 +17,47 @@ rainamount      real
 filepath        text
 """
 
+def upload_images_to_database(websiteList):
+    accessCode = 'pPgmIezcgqAAAAAAAAAAC9j36rWwsmEMbmqzghkGS7tamdM29obAqzux2bh-C2Tw'
+    for websiteData in websiteList:
+        dbx = dropbox.Dropbox(accessCode)
+
+        if (websiteData['RightSideCamera1'] != "None"):
+            f = open(websiteData['RightSideCamera1'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/RightSideCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
+        if (websiteData['RightSideCamera2'] != "None"):
+            f = open(websiteData['RightSideCamera2'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/RightSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
+        if (websiteData['LeftSideCamera1'] != "None")
+            f = open(websiteData['LeftSideCamera1'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
+        if (websiteData['LeftSideCamera2'] != "None")
+            f = open(websiteData['LeftSideCamera2'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
+        if (websiteData['OverheadCamera1'] != "None")
+            f = open(websiteData['OverheadCamera1'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
+        if (websiteData['LeftSideCamera2'] != "None")
+            f = open(websiteData['OverheadCamera2'])
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
+
 def write_to_databases(websiteList):
     connect = sqlite3.connect(r"./DatabaseWork/test.db")
     cursor = connect.cursor()

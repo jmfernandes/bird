@@ -14,19 +14,19 @@ height = 480
 
 ################################################################
 #USB Camera 1
-def TakeUSBPicture1(RFID,number):
+def TakeUSBPicture1(RFID,datetime,number):
     try:
         #initialise pygame
         pygame.init()
         pygame.camera.init()
         cam = pygame.camera.Camera("/dev/video0",(width,height))
         cam.start()
-        pygame.display.set_caption('RFID{}_RightSideCamera{number}'.format(RFID,number))
+        pygame.display.set_caption('RightSideCamera{0}'.format(number))
         #take a picture
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = 'RFID{0}_RightSideCamera{number}.jpg'.format(RFID,number)
+        fileString = '/media/{0}/{1}/RightSideCamera{2}.jpg'.format(RFID,datetime,number)
         pygame.image.save(image,fileString)
         return(fileString)
     except:
@@ -35,19 +35,19 @@ def TakeUSBPicture1(RFID,number):
 
 ################################################################
 #USB Camera 2
-def TakeUSBPicture2(RFID,number):
+def TakeUSBPicture2(RFID,datetime,number):
     try:
         #initialise pygame
         pygame.init()
         pygame.camera.init()
         cam = pygame.camera.Camera("/dev/video1",(width,height))
         cam.start()
-        pygame.display.set_caption('RFID{0}_LeftSideCamera{1}'.format(RFID,number))
+        pygame.display.set_caption('LeftSideCamera{0}'.format(number))
         #take a picture
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = 'RFID{0}_LeftSideCamera{1}.jpg'.format(RFID,number)
+        fileString = '/media/{0}/{1}/LeftSideCamera{2}.jpg'.format(RFID,datetime,number)
         pygame.image.save(image,fileString)
         return(fileString)
     except:
@@ -56,12 +56,12 @@ def TakeUSBPicture2(RFID,number):
 
 ################################################################
 # Pi Camera 3
-def TakePiPicture(RFID,number):
+def TakePiPicture(RFID,datetime,number):
     try:
         camera = PiCamera()
-        camera.annotate_text = "RFID{0}_OverheadCamera{1}".format(RFID,number)
+        camera.annotate_text = "OverheadCamera{0}".format(number)
         camera.annotate_text_size = 60
-        fileString='/home/pi/RFID{0}_OverheadCamera{1}.jpg'.format(RFID,number)
+        fileString='/home/bird/media/{0}/{1}/OverheadCamera{2}.jpg'.format(RFID,datetime,number)
         camera.capture(fileString)
         return(fileString)
     except:
