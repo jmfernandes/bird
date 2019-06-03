@@ -26,16 +26,13 @@ picture3     text
 picture4     text
 """
 
-def convert_database_to_csv():
-    print('writing to csv')
-    path = "/media/pi/1842-ED03/csv/" #all paths must end in slash
-
+def convert_database_to_csv(path,databaseLocation):
     # Raise exception if it does not exist
     if not os.path.exists(path):
         raise Exception('Filepath does not exist')
 
     #connect to the database
-    connect = sqlite3.connect("/home/pi/bird2/DatabaseWork/test.db")
+    connect = sqlite3.connect(databaseLocation)
     cursor = connect.cursor()
     #put everything in a try block so if something fails, the connection is still closed.
     try:

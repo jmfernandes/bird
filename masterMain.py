@@ -65,6 +65,7 @@ A = []
 id = None
 reader = SimpleMFRC522()
 running = True
+cameraPath = "/home/pi/bird/media"
 #===============================================================================#
 
 #GPIO.setmode(GPIO.BOARD)
@@ -79,7 +80,7 @@ def my_callback(channel):
     #GPIO.remove_event_detect(7)
     #upload_data_to_database(dataList)
     try:
-        convert_database_to_csv()
+        convert_database_to_csv("/media/pi/1842-ED03/csv/","/home/pi/bird/DatabaseWork/test.db")
         time.sleep(1)
     except:
         print('did not write')
@@ -108,7 +109,7 @@ while running:
             print("value of {}".format(val))
             time.sleep(0.1)
         else:
-            #id,text = reader.read()
+            id,text = reader.read()
             id = "josh"
             if id:
                 dataDict['RFID']=id
@@ -123,12 +124,12 @@ while running:
                 dataDict['birdWeight']=lowPassFilter(A)
                 #take pictures
                 dataDict['filePath'] = 'https://www.dropbox.com/home/media/{}/{}'.format(id,timeString)
-                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
-                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
-                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
-                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
-                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
-                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
+                dataDict['RightSideCamera1'] = TakeUSBPicture1(cameraPath,id,timeString,"RightSideCamera1") #video0
+                dataDict['RightSideCamera2'] = TakeUSBPicture1(cameraPath,id,timeString,"RightSideCamera2") #video0
+                dataDict['LeftSideCamera1'] = TakeUSBPicture2(cameraPath,id,timeString,"LeftSideCamera1") #video1
+                dataDict['LeftSideCamera2'] = TakeUSBPicture2(cameraPath,id,timeString,"LeftSideCamera2") #video1
+                dataDict['OverheadCamera1'] = TakePiPicture(cameraPath,id,timeString,"OverheadCamera1")
+                dataDict['OverheadCamera2'] = TakePiPicture(cameraPath,id,timeString,"OverheadCamera2")
                 actuateServo(100)
                 #DO LOTS OF STUFF
                 #call the averaging function to determine when bird leaves and then continue
@@ -139,9 +140,9 @@ while running:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        #upload_images_to_dropbox(dataList)
-        #upload_data_to_database(dataList)
-        #upload_data_to_website(dataList)
+        upload_images_to_dropbox(dataList)
+        upload_data_to_database(dataList)
+        upload_data_to_website(dataList)
         #cleanAndExit()
         GPIO.cleanup()
         running = False
