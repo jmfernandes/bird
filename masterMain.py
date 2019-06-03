@@ -15,8 +15,8 @@ from picamera import PiCamera
 from DatabaseWork.DatabaseFunctions import convert_database_to_csv
 from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter
 from servo1 import actuateServo
-from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
-from BirdVideo import TakeVideo
+#from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
+#from BirdVideo import TakeVideo
 from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
 #===============================================================================#
 
@@ -33,7 +33,7 @@ dataDict['hopperName'] = "Ala'la Carte Diner"
 dataDict['hopperWeight'] = random.randint(10,1000)
 dataDict['birdWeight'] = random.randint(350,750)
 dataDict['feedingDuration'] = random.randint(10,1000)
-dataDict['feedingAmount'] = random.randit(1,20)
+dataDict['feedingAmount'] = random.randint(1,20)
 dataDict['temperature'] = random.randint(65,100)
 dataDict['rainAmount'] = random.randint(0,2)
 dataDict['filePath'] = "None"
@@ -67,18 +67,32 @@ reader = SimpleMFRC522()
 running = True
 #===============================================================================#
 
-GPIO.setmode(GPIO.BOARD)
+#GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(21,GPIO.OUT, initial=0)
+#GPIO.output(21,1)
 
 def my_callback(channel):
     # stop detection for 5 sec
+    GPIO.output(21,1)
     print('Callback')
-    GPIO.remove_event_detect(7)
-    upload_data_to_database(dataList)
-    convert_database_to_csv()
+    #GPIO.remove_event_detect(7)
+    #upload_data_to_database(dataList)
+    try:
+        convert_database_to_csv()
+        time.sleep(1)
+    except:
+        print('did not write')
+        for i in range(3):
+            time.sleep(0.25)
+            GPIO.output(21,0)
+            time.sleep(0.25)
+            GPIO.output(21,1)
+        
+    GPIO.output(21,0)
     #
-    sleep(5)
-    GPIO.add_event_detect(7, GPIO.RISING, callback=my_callback, bouncetime=300)
+    #time.sleep(5)
+    #GPIO.add_event_detect(7, GPIO.RISING, callback=my_callback, bouncetime=300)
 
 GPIO.add_event_detect(7, GPIO.RISING, callback=my_callback, bouncetime=300)
 
@@ -94,7 +108,10 @@ while running:
             print("value of {}".format(val))
             time.sleep(0.1)
         else:
-            id,text = reader.read()
+            actuateServo(50)
+            time.sleep(1)
+            actuateServo(100)
+            #id,text = reader.read()
             if id:
                 dataDict['RFID']=id
                 actuateServo(100)
@@ -108,12 +125,12 @@ while running:
                 dataDict['birdWeight']=lowPassFilter(A)
                 #take pictures
                 dataDict['filePath'] = 'https://www.dropbox.com/home/media/{}/{}'.format(id,timeString)
-                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
-                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
-                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
-                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
-                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
-                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
+                #dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
+                #dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
+                #dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
+                #dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
+                #dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
+                #dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
                 actuateServo(20)
                 #DO LOTS OF STUFF
                 #call the averaging function to determine when bird leaves and then continue

@@ -32,27 +32,37 @@ picture4     text
 connect = sqlite3.connect(r"test.db")
 cursor = connect.cursor()
 
-birds = ["1111","2222","3333","4444","5555"]
+birds = ["josh","erica","krystal","meena"]
 currentTime=dt.datetime.now()
 # timeString = currentTime.strftime('%d/%m/%y %I:%M %S %p')
 #use this format and not the other ones when actually building the string
 timeString = currentTime.strftime('%Y-%m-%d %H:%M:%S')
 bird = random.choice(birds)
-birdWeight = random.randint(18,23)
-foodWeight = random.randint(1,6)
+birdWeight = random.randint(300,400)
+foodWeight = random.randint(10,30)
 temperature = random.randint(72,90)
-humidity = random.randint(0,10)
-windSpeed = random.randint(1,6)
+feedingDuration = random.randint(10,25)
+feedingAmount = random.randint(5,20)
 airQuality = random.randint(95,99)
 rain= random.randint(0,15)
-cursor.execute("INSERT INTO birds VALUES('{0}','{1}','{2}',{3},{4},{5},{6},{7},{8},{9},'{10}','{11}','{12}','{13}','{14}')".format(
-                              bird,timeString,"Los Angeles",birdWeight,foodWeight,temperature,humidity,windSpeed,airQuality,rain,
-                              bird+"/vid.mp4",bird+"/pic1.png",bird+"/pic2.png",bird+"/pic3.png",bird+"/pic4.png"))
+cursor.execute("INSERT INTO birds VALUES('{0}','{1}','{2}','{3}',{4},{5},{6},{7},{8},{9},'{10}')".format(
+                              bird,
+                              timeString,
+                              "Los Angeles",
+                              "the hopper",
+                              foodWeight,
+                              birdWeight,
+                              feedingDuration,
+                              feedingAmount,
+                              temperature,
+                              rain,
+                              "None"))
 
 
 connect.commit()
 connect.close()
 
+exit()
 #write to the website
 mystring = "https://alalacrow.herokuapp.com/enter/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}".format(
 bird,timeString,"Los Angeles",birdWeight,foodWeight,temperature,humidity,windSpeed,airQuality,rain,bird+"vid.mp4",

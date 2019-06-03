@@ -1,0 +1,2 @@
+rowid,RFID,datetime,GPS,hopperName,hopperWeight,birdWeight,feedingDuration,feedingAmount,temperature,rainAmount,filepath
+4,erica,2019-06-02 16:37:35,Los Angeles,the hopper,26.0,347.0,21.0,20.0,77.0,14.0,None

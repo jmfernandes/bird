@@ -25,15 +25,17 @@ picture2     text
 picture3     text
 picture4     text
 """
-def convert_database_to_csv():
-    path = "./csv/" #all paths must end in slash
 
-    #make the directory if it does not exist
+def convert_database_to_csv():
+    print('writing to csv')
+    path = "/media/pi/1842-ED03/csv/" #all paths must end in slash
+
+    # Raise exception if it does not exist
     if not os.path.exists(path):
-        os.makedirs(path)
+        raise Exception('Filepath does not exist')
 
     #connect to the database
-    connect = sqlite3.connect(r"test.db")
+    connect = sqlite3.connect("/home/pi/bird2/DatabaseWork/test.db")
     cursor = connect.cursor()
     #put everything in a try block so if something fails, the connection is still closed.
     try:
@@ -43,13 +45,12 @@ def convert_database_to_csv():
         ListRFID = []
         for item in cursor.execute("SELECT DISTINCT RFID FROM birds").fetchall():
             ListRFID.append(item[0])
-
         #write to the different files
         for name in ListRFID:
             with open("{0}{1}.csv".format(path,name), 'w+') as file:
                 writer = csv.writer(file)
                 writer.writerow(headerRow)
-                for row in cursor.execute("SELECT rowid, * FROM birds WHERE RFID = {}".format(name)):
+                for row in cursor.execute("SELECT rowid, * FROM birds WHERE RFID = '{}'".format(name)):
                     writer.writerow(row)
     except Exception as e:
         print(e)

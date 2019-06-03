@@ -34,25 +34,25 @@ def upload_images_to_dropbox(websiteList):
             dbx.files_upload(fdata, '/media/{0}/{1}/RightSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-        if (websiteData['LeftSideCamera1'] != "None")
+        if (websiteData['LeftSideCamera1'] != "None"):
             f = open(websiteData['LeftSideCamera1'])
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-        if (websiteData['LeftSideCamera2'] != "None")
+        if (websiteData['LeftSideCamera2'] != "None"):
             f = open(websiteData['LeftSideCamera2'])
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-        if (websiteData['OverheadCamera1'] != "None")
+        if (websiteData['OverheadCamera1'] != "None"):
             f = open(websiteData['OverheadCamera1'])
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
-        if (websiteData['OverheadCamera2'] != "None")
+        if (websiteData['OverheadCamera2'] != "None"):
             f = open(websiteData['OverheadCamera2'])
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))

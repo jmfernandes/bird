@@ -28,7 +28,7 @@ picture4     text
 
 connect = sqlite3.connect(r"test.db")
 cursor = connect.cursor()
-# cursor.execute("CREATE TABLE birds(RFID text, datetime text, GPS text," +
+#cursor.execute("CREATE TABLE birds(RFID text, datetime text, GPS text," +
 #               "hopperName text, hopperWeight real, birdWeight real," +
 #               "feedingDuration real, feedingAmount real, temperature real, rainAmount real,"+
 #               "filepath text)")
