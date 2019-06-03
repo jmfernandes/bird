@@ -24,7 +24,7 @@ class SimpleMFRC522:
           
           if ((datetime.datetime.now()-timeOld).total_seconds() > timeToWait):
               print("RFID NOT FOUND")
-              break
+              return id, text
       print("FOUND IT")
       return id, text
 

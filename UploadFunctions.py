@@ -23,37 +23,37 @@ def upload_images_to_dropbox(websiteList):
     dbx = dropbox.Dropbox(accessCode)
     for websiteData in websiteList:
         if (websiteData['RightSideCamera1'] != "None"):
-            f = open(websiteData['RightSideCamera1'])
+            f = open(r"{}".format(websiteData['RightSideCamera1']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/RightSideCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
         if (websiteData['RightSideCamera2'] != "None"):
-            f = open(websiteData['RightSideCamera2'])
+            f = open(r"{}".format(websiteData['RightSideCamera2']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/RightSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
         if (websiteData['LeftSideCamera1'] != "None"):
-            f = open(websiteData['LeftSideCamera1'])
+            f = open(r"{}".format(websiteData['LeftSideCamera1']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
         if (websiteData['LeftSideCamera2'] != "None"):
-            f = open(websiteData['LeftSideCamera2'])
+            f = open(r"{}".format(websiteData['LeftSideCamera2']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/LeftSideCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
         if (websiteData['OverheadCamera1'] != "None"):
-            f = open(websiteData['OverheadCamera1'])
+            f = open(r"{}".format(websiteData['OverheadCamera1']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera1.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
 
         if (websiteData['OverheadCamera2'] != "None"):
-            f = open(websiteData['OverheadCamera2'])
+            f = open(r"{}".format(websiteData['OverheadCamera2']), 'rb')
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()

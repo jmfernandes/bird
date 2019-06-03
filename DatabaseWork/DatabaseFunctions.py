@@ -57,3 +57,5 @@ def convert_database_to_csv():
 
     #close SQL connection
     connect.close()
+
+        

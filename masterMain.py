@@ -15,7 +15,7 @@ from picamera import PiCamera
 from DatabaseWork.DatabaseFunctions import convert_database_to_csv
 from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter
 from servo1 import actuateServo
-#from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
+from CameraCode import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture
 #from BirdVideo import TakeVideo
 from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
 #===============================================================================#
@@ -108,13 +108,11 @@ while running:
             print("value of {}".format(val))
             time.sleep(0.1)
         else:
-            actuateServo(50)
-            time.sleep(1)
-            actuateServo(100)
             #id,text = reader.read()
+            id = "josh"
             if id:
                 dataDict['RFID']=id
-                actuateServo(100)
+                actuateServo(50)
                 print ('loopstart')
                 for n in range(1,30):
                     val = hxcomp1.get_weight(1)
@@ -125,13 +123,13 @@ while running:
                 dataDict['birdWeight']=lowPassFilter(A)
                 #take pictures
                 dataDict['filePath'] = 'https://www.dropbox.com/home/media/{}/{}'.format(id,timeString)
-                #dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
-                #dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
-                #dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
-                #dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
-                #dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
-                #dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
-                actuateServo(20)
+                dataDict['RightSideCamera1'] = TakeUSBPicture1(id,timeString,"RightSideCamera1")
+                dataDict['RightSideCamera2'] = TakeUSBPicture1(id,timeString,"RightSideCamera2")
+                dataDict['LeftSideCamera1'] = TakeUSBPicture2(id,timeString,"LeftSideCamera1")
+                dataDict['LeftSideCamera2'] = TakeUSBPicture2(id,timeString,"LeftSideCamera2")
+                dataDict['OverheadCamera1'] = TakePiPicture(id,timeString,"OverheadCamera1")
+                dataDict['OverheadCamera2'] = TakePiPicture(id,timeString,"OverheadCamera2")
+                actuateServo(100)
                 #DO LOTS OF STUFF
                 #call the averaging function to determine when bird leaves and then continue
                 dataDict['feedingDuration'] = (dt.datetime.now()-currentTime).total_seconds()

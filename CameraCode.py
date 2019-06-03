@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import pygame, sys
+import datetime as dt
 
 from pygame.locals import *
 import pygame.camera
@@ -26,10 +27,15 @@ def TakeUSBPicture1(RFID,datetime,name):
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = '/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
+        path = '/home/pi/bird2/media/{0}/{1}'.format(RFID,datetime)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fileString = '/home/pi/bird2/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
         pygame.image.save(image,fileString)
+        print('done')
         return(fileString)
-    except:
+    except Exception as e:
+        print(e)
         return("None")
 
 
@@ -40,17 +46,21 @@ def TakeUSBPicture2(RFID,datetime,name):
         #initialise pygame
         pygame.init()
         pygame.camera.init()
-        cam = pygame.camera.Camera("/dev/video1",(width,height))
+        cam = pygame.camera.Camera("/dev/video2",(width,height))
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
         #take a picture
         image = cam.get_image()
         cam.stop()
         #save picture
-        fileString = '/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
+        path = '/home/pi/bird2/media/{0}/{1}'.format(RFID,datetime)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fileString = '/home/pi/bird2/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
         pygame.image.save(image,fileString)
         return(fileString)
-    except:
+    except Exception as e:
+        print(e)
         return("None")
 
 
@@ -61,8 +71,12 @@ def TakePiPicture(RFID,datetime,name):
         camera = PiCamera()
         camera.annotate_text = "{0}".format(name)
         camera.annotate_text_size = 60
-        fileString='/home/bird/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
+        path = '/home/pi/bird2/media/{0}/{1}'.format(RFID,datetime)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fileString='/home/pi/bird2/media/{0}/{1}/{2}.jpg'.format(RFID,datetime,name)
         camera.capture(fileString)
         return(fileString)
-    except:
+    except Exception as e:
+        print(e)
         return("None")
