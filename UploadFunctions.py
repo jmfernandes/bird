@@ -57,6 +57,12 @@ def upload_images_to_dropbox(websiteList):
             fdata = f.read()
             dbx.files_upload(fdata, '/media/{0}/{1}/OverheadCamera2.jpg'.format(websiteData['RFID'],websiteData['datetime']))
             f.close()
+            
+        if (websiteData['video'] != "None"):
+            f = open(r"{}".format(websiteData['video']), 'rb')
+            fdata = f.read()
+            dbx.files_upload(fdata, '/media/{0}/{1}/video.h264'.format(websiteData['RFID'],websiteData['datetime']))
+            f.close()
 
 def upload_data_to_database(websiteList):
     connect = sqlite3.connect(r"./DatabaseWork/test.db")
@@ -64,18 +70,21 @@ def upload_data_to_database(websiteList):
 
     for websiteData in websiteList:
         # Write to local
-        cursor.execute('INSERT INTO birds VALUES("{0}","{1}","{2}","{3}",{4},{5},{6},{7},{8},{9},"{10}")'.format(
-        websiteData["RFID"],
-        websiteData["datetime"],
-        websiteData["GPS"],
-        websiteData["hopperName"],
-        websiteData["hopperWeight"],
-        websiteData["birdWeight"],
-        websiteData["feedingDuration"],
-        websiteData["feedingAmount"],
-        websiteData["temperature"],
-        websiteData["rainAmount"],
-        websiteData["filePath"]))
+        try:
+            cursor.execute('INSERT INTO birds VALUES("{0}","{1}","{2}","{3}",{4},{5},{6},{7},{8},{9},"{10}")'.format(
+            websiteData["RFID"],
+            websiteData["datetime"],
+            websiteData["GPS"],
+            websiteData["hopperName"],
+            websiteData["hopperWeight"],
+            websiteData["birdWeight"],
+            websiteData["feedingDuration"],
+            websiteData["feedingAmount"],
+            websiteData["temperature"],
+            websiteData["rainAmount"],
+            websiteData["filePath"]))
+        except:
+            pass
 
     connect.commit()
     connect.close()
@@ -95,6 +104,5 @@ def upload_data_to_website(websiteList):
         websiteData["temperature"],
         websiteData["rainAmount"],
         websiteData["filePath"])
-        print(myString)
         r = requests.get(myString)
         print(r)

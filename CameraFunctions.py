@@ -13,9 +13,34 @@ from time import sleep
 width = 640
 height = 480
 
+###############################################################
+def TakeVideo(cameraPath,RFID,datetime,name):
+    camera = None
+    try: 
+        camera = PiCamera()
+        camera.start_preview()
+        path = '{0}/{1}/{2}'.format(cameraPath,RFID,datetime)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fileString='{0}/{1}/{2}/{3}.h264'.format(cameraPath,RFID,datetime,name)
+        camera.start_recording(fileString)
+        sleep(12)
+        camera.stop_recording()
+        camera.stop_preview()
+        camera.close()
+        return(fileString)
+    except Exception as e:
+        if camera:
+            camera.stop_recording()
+            camera.stop_preview()
+            camera.close()
+        print("TakeVideo error: {0}".format(e))
+        return("None")
+
 ################################################################
 #USB Camera 1
 def TakeUSBPicture1(cameraPath,RFID,datetime,name):
+    cam = None
     try:
         #initialise pygame
         pygame.init()
@@ -34,6 +59,8 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
         pygame.image.save(image,fileString)
         return(fileString)
     except Exception as e:
+        if cam:
+            cam.stop()
         print("TakeUSBPicture1 error: {0}".format(e))
         return("None")
 
@@ -41,6 +68,7 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
 ################################################################
 #USB Camera 2
 def TakeUSBPicture2(cameraPath, RFID,datetime,name):
+    cam = None
     try:
         #initialise pygame
         pygame.init()
@@ -59,6 +87,8 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
         pygame.image.save(image,fileString)
         return(fileString)
     except Exception as e:
+        if cam:
+            cam.stop()
         print("TakeUSBPicture3 error: {0}".format(e))
         return("None")
 
@@ -66,6 +96,7 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
 ################################################################
 # Pi Camera 3
 def TakePiPicture(cameraPath,RFID,datetime,name):
+    camera = None
     try:
         camera = PiCamera()
         camera.annotate_text = "{0}".format(name)
@@ -78,5 +109,7 @@ def TakePiPicture(cameraPath,RFID,datetime,name):
         camera.close()
         return(fileString)
     except Exception as e:
+        if camera:
+            camera.close()
         print("TakePiPicture error: {0}".format(e))
         return("None")

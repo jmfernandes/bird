@@ -9,6 +9,11 @@ import time
 import sys
 from hx711 import HX711
 
+def actuateServo(servo,angle):
+    servo.start(7.5) #7.5% duty cycle means 1.5ms out of 20ms means 90 deg or neutral for servo
+    duty = 2.5 + angle / 18 #2.5 = 0 deg, 12.5 = 180
+    servo.ChangeDutyCycle(duty)
+
 def checkRFID():
     #https://pimylifeup.com/raspberry-pi-rfid-rc522/
     reader = SimpleMFRC522()
