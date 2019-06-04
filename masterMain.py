@@ -78,7 +78,7 @@ def my_callback(channel):
     GPIO.output(21,1)
     print('Callback')
     #GPIO.remove_event_detect(7)
-    #upload_data_to_database(dataList)
+    upload_data_to_database(dataList)
     try:
         convert_database_to_csv("/media/pi/1842-ED03/csv/","/home/pi/bird/DatabaseWork/test.db")
         time.sleep(1)

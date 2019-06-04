@@ -83,7 +83,7 @@ def upload_data_to_database(websiteList):
 def upload_data_to_website(websiteList):
     for websiteData in websiteList:
         #write to the website
-        myString = "https://alalacrow.herokuapp.com/enter/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/'{10}'".format(
+        myString = "https://alalacrow.herokuapp.com/enter/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}".format(
         websiteData["RFID"],
         websiteData["datetime"],
         websiteData["GPS"],

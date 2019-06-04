@@ -32,10 +32,9 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
             os.makedirs(path)
         fileString = '{0}/{1}/{2}/{3}.jpg'.format(cameraPath,RFID,datetime,name)
         pygame.image.save(image,fileString)
-        print('done')
         return(fileString)
     except Exception as e:
-        print(e)
+        print("TakeUSBPicture1 error: {0}".format(e))
         return("None")
 
 
@@ -58,10 +57,9 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
             os.makedirs(path)
         fileString = '{0}/{1}/{2}/{3}.jpg'.format(cameraPath,RFID,datetime,name)
         pygame.image.save(image,fileString)
-        print('done2')
         return(fileString)
     except Exception as e:
-        print(e)
+        print("TakeUSBPicture3 error: {0}".format(e))
         return("None")
 
 
@@ -80,5 +78,5 @@ def TakePiPicture(cameraPath,RFID,datetime,name):
         camera.close()
         return(fileString)
     except Exception as e:
-        print(e)
+        print("TakePiPicture error: {0}".format(e))
         return("None")
