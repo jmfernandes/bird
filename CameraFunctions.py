@@ -39,6 +39,7 @@ def TakeVideo(cameraPath,RFID,datetime,name):
 
 ################################################################
 #USB Camera 1
+    
 def TakeUSBPicture1(cameraPath,RFID,datetime,name):
     cam = None
     try:
@@ -49,7 +50,9 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
         #take a picture
-        sleep(1)
+        cam.get_image()
+        sleep(2)
+        cam.query_image()
         image = cam.get_image()
         cam.stop()
         #save picture
@@ -65,6 +68,7 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
         print("TakeUSBPicture1 error: {0}".format(e))
         return("None")
 
+TakeUSBPicture1("/home/pi/bird/media","test","test","RightSideCamera1")
 
 ################################################################
 #USB Camera 2
@@ -78,7 +82,8 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
         #take a picture
-        sleep(1)
+        sleep(2)
+        cam.query_image()
         image = cam.get_image()
         cam.stop()
         #save picture

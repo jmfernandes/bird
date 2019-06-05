@@ -105,7 +105,8 @@ while running:
         timeString = currentTime.strftime('%Y-%m-%d %H:%M:%S')
         if (currentTime.hour >= 21):
             print("it's too late to feed the birds")
-            #sys.exit()
+            if not os.path.exists(usbPath):
+                sys.exit()
         if (val < 0):
             print("value of {} - improper tare".format(val))
             time.sleep(0.1)
