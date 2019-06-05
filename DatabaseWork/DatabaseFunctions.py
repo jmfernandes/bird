@@ -50,7 +50,7 @@ def convert_database_to_csv(path,databaseLocation):
                 for row in cursor.execute("SELECT rowid, * FROM birds WHERE RFID = '{}'".format(name)):
                     writer.writerow(row)
     except Exception as e:
-        print(e)
+        print("Error in convert_database_to_csv: {}".format(e))
 
     #close SQL connection
     connect.close()

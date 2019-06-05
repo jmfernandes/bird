@@ -49,6 +49,7 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
         #take a picture
+        sleep(1)
         image = cam.get_image()
         cam.stop()
         #save picture
@@ -77,6 +78,7 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
         #take a picture
+        sleep(1)
         image = cam.get_image()
         cam.stop()
         #save picture
