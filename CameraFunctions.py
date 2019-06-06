@@ -46,6 +46,8 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name):
         #initialise pygame
         pygame.init()
         pygame.camera.init()
+        if not os.path.exists("/dev/video0"):
+            raise Exception("/dev/video0 does not exist")
         cam = pygame.camera.Camera("/dev/video0",(width,height))
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
@@ -78,6 +80,8 @@ def TakeUSBPicture2(cameraPath, RFID,datetime,name):
         #initialise pygame
         pygame.init()
         pygame.camera.init()
+        if not os.path.exists("/dev/video1"):
+            raise Exception("/dev/video1 does not exist")
         cam = pygame.camera.Camera("/dev/video1",(width,height))
         cam.start()
         pygame.display.set_caption('{0}'.format(name))
