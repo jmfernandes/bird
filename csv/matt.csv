@@ -1,7 +1,0 @@
-rowid,RFID,datetime,GPS,hopperName,hopperWeight,birdWeight,feedingDuration,feedingAmount,temperature,rainAmount,filepath
-1,matt,2019-06-02 16:37:14,Los Angeles,the hopper,28.0,395.0,18.0,20.0,89.0,1.0,None
-2,matt,2019-06-02 16:37:26,Los Angeles,the hopper,30.0,393.0,20.0,11.0,88.0,14.0,None
-5,matt,2019-06-02 16:37:39,Los Angeles,the hopper,11.0,350.0,12.0,16.0,75.0,10.0,None
-7,matt,2019-06-02 16:37:51,Los Angeles,the hopper,10.0,390.0,12.0,12.0,82.0,12.0,None
-8,matt,2019-06-02 16:38:01,Los Angeles,the hopper,15.0,334.0,11.0,5.0,89.0,1.0,None
-9,matt,2019-06-02 16:38:12,Los Angeles,the hopper,16.0,387.0,21.0,9.0,85.0,5.0,None

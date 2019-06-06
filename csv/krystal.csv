@@ -1,2 +1,0 @@
-rowid,RFID,datetime,GPS,hopperName,hopperWeight,birdWeight,feedingDuration,feedingAmount,temperature,rainAmount,filepath
-6,krystal,2019-06-02 16:37:44,Los Angeles,the hopper,19.0,335.0,19.0,5.0,74.0,4.0,None

@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from hx711 import HX711
 # Import local funcions
-from DatabaseWork.DatabaseFunctions import convert_database_to_csv
+from DatabaseFunctions import convert_database_to_csv
 from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter, actuateServo
 from CameraFunctions import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture, TakeVideo
 from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
@@ -61,7 +61,7 @@ reader = SimpleMFRC522()
 running = True
 baseDir = os.path.dirname(os.path.realpath(__file__))
 cameraPath = "{0}/media".format(baseDir)
-databasePath = "{0}/DatabaseWork/test.db".format(baseDir)
+databasePath = "{0}/test.db".format(baseDir)
 usbPath = "/media/pi/1842-ED03/csv/"
 
 #===============================================================================#
