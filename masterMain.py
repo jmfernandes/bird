@@ -22,16 +22,16 @@ from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, u
 #======================= Set up data list and dictionary =======================#
 dataList = []
 dataDict = {}
-dataDict['RFID'] = random.choice(["steve", "bob", "josh"])
+dataDict['RFID'] = "None"
 dataDict['datetime'] = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-dataDict['GPS'] = random.choice(["hawaii","Hilo Hawaii", "Kona Hawaii"])
+dataDict['GPS'] = "None"
 dataDict['hopperName'] = "Ala'la Carte Diner"
-dataDict['hopperWeight'] = random.randint(10,1000)
-dataDict['birdWeight'] = random.randint(350,750)
-dataDict['feedingDuration'] = random.randint(10,1000)
-dataDict['feedingAmount'] = random.randint(1,20)
-dataDict['temperature'] = random.randint(65,100)
-dataDict['rainAmount'] = random.randint(0,2) 
+dataDict['hopperWeight'] = -1
+dataDict['birdWeight'] = -1
+dataDict['feedingDuration'] = -1
+dataDict['feedingAmount'] = -1
+dataDict['temperature'] = -1
+dataDict['rainAmount'] = -1
 dataDict['filePath'] = "None"
 dataDict['video'] = "None"
 dataDict['RightSideCamera1'] = "None"
@@ -117,7 +117,6 @@ while running:
             time.sleep(0.1)
         else:
             id,text = reader.read()
-            id = "josh"
             if id:
                 # Get initial data
                 dataDict['RFID']= id
@@ -168,9 +167,9 @@ while running:
                 sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        #upload_images_to_dropbox(dataList)
-        #upload_data_to_database(dataList)
-        #upload_data_to_website(dataList)
+        upload_images_to_dropbox(dataList)
+        upload_data_to_database(dataList)
+        upload_data_to_website(dataList)
         #cleanAndExit()
         GPIO.cleanup()
         running = False
