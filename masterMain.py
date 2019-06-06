@@ -3,6 +3,7 @@
 import os
 import time
 import random
+import csv
 import datetime as dt
 import sys
 import serial
@@ -16,6 +17,7 @@ from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter, actuateServo
 from CameraFunctions import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture, TakeVideo
 from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
 #===============================================================================#
+
 
 #======================= Set up data list and dictionary =======================#
 dataList = []
@@ -147,6 +149,13 @@ while running:
                 dataDict['RightSideCamera2'] = TakeUSBPicture1(cameraPath,id,timeString,"RightSideCamera2") #video0
                 dataDict['LeftSideCamera2'] = TakeUSBPicture2(cameraPath,id,timeString,"LeftSideCamera2") #video1
                 dataDict['OverheadCamera2'] = TakePiPicture(cameraPath,id,timeString,"OverheadCamera2")
+                # Get temperature and rain
+                file = open('./weather.csv','r')
+                reader = csv.reader(file)
+                tempList = list(reader)[-1]
+                dataDict['temperature'] = tempList[1]
+                dataDict['rainAmount'] = tempList[0]
+                file.close()
                 print(dataDict)
                 # Append to List
                 dataList.append(dataDict)
