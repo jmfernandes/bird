@@ -65,7 +65,7 @@ def upload_images_to_dropbox(websiteList):
             f.close()
 
 def upload_data_to_database(websiteList):
-    connect = sqlite3.connect(r"./DatabaseWork/test.db")
+    connect = sqlite3.connect(r"./test.db")
     cursor = connect.cursor()
 
     for websiteData in websiteList:
@@ -83,8 +83,8 @@ def upload_data_to_database(websiteList):
             websiteData["temperature"],
             websiteData["rainAmount"],
             websiteData["filePath"]))
-        except:
-            pass
+        except Exception as e:
+            print("Error in upload_data_to_database: {0}".format(e))
 
     connect.commit()
     connect.close()
@@ -104,5 +104,8 @@ def upload_data_to_website(websiteList):
         websiteData["temperature"],
         websiteData["rainAmount"],
         websiteData["filePath"])
-        r = requests.get(myString)
-        print(r)
+        try:
+            r = requests.get(myString)
+        except Exception as e:
+            print("error in upload_data_to_website: {0}".format(e))
+            
