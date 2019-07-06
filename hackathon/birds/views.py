@@ -4,14 +4,31 @@ from django.template import loader
 from django.forms.models import model_to_dict
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import TemplateView
 import csv
 
 from .models import Feeding
+
+class HomePageView(TemplateView):
+    template_name = 'home.html'
 # Functions
 def enterValue(rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath):
     q = Feeding(RFID=rfid,datetime=datetime,GPS=gps,hoppername=hoppername,hopperweight=hopperweight,
     birdweight=birdweight,feedingduration=feedingduration,feedingamount=feedingamount,temperature=temperature,rainamount=rainamount,filepath=filepath)
     q.save()
+
+def lowPassFilter(weightdata):
+    X = weightdata[0:-1] #Create Array C, that is all the values of A except for the last one because the last value is zero sometimes
+    B=len(X) #Create List B, that is equal to the length of X
+    filterweight=[200] #Seed our y function with an estimate of the bird weight (200 was used because of calibration weight)
+    dt=0.1 # 10 hz is how fast we are taking time, every 0.1 seconds
+    freq=1 #frequency of transients we want to reject (ones faster than 1 hz or 1 second)
+    omega=freq*2*3.1415 #omega for low pass filter, converting to radians
+    if B > 2:
+        for n in range(1,B):
+            yi=(filterweight[n-1]+X[n]*dt*omega)/(1+omega*dt)
+            filterweight.append(yi)
+        return filterweight[B-1]
 # Create your views here.
 def index(request):
     latest_feeding_list = Feeding.objects.order_by('-datetime')
@@ -74,6 +91,13 @@ def detail(request, feeding_id):
     feeding = model_to_dict(get_object_or_404(Feeding, pk=feeding_id))
     return render(request, 'birds/detail.html', {'feeding': feeding})
 
+def charts(request):
+    latest_feeding_list = Feeding.objects.order_by('-datetime')
+    context = {
+        'latest_feeding_list' : latest_feeding_list
+    }
+    return render(request, 'birds/charts.html', context)
+
 def delete(request, feeding_id):
     try:
         feeding = Feeding.objects.get(pk=feeding_id)
@@ -82,7 +106,9 @@ def delete(request, feeding_id):
     feeding.delete()
     return HttpResponseRedirect(reverse('birds:clear'))
 
-def enter(request,rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath):
+def enter(request,rfid,datetime,gps,hoppername,hopperweightString,birdweightString,feedingduration,feedingamount,temperature,rainamount,filepath):
+    hopperweight = lowPassFilter(hopperweightString.split(","))
+    birdweight = lowPassFilter(birdweightString.split(","))
     enterValue(rfid,datetime,gps,hoppername,hopperweight,birdweight,feedingduration,feedingamount,temperature,rainamount,filepath)
     return HttpResponse('success')
 
