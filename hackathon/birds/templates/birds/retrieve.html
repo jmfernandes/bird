@@ -1,0 +1,17 @@
+{% extends "birds/base.html" %}
+{% block content %}
+<h1>Download Data</h1>
+<hr>
+Select a specific RFID to get all feedings for that RFID, or select 'All Data' for all feedings:
+<form method = "post" action = "{% url 'birds:download' %}">
+{% csrf_token %}
+<select id = "combo" name="combo">
+<option value="">All Data</option>
+{% for myValue in myList %}
+<option value="{{ myValue }}">{{myValue}}</option>
+{% endfor %}
+</select><br>
+<br>
+<input id="myButton" type = "submit" value="Download">
+</form>
+{% endblock %}

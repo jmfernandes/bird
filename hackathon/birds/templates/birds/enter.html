@@ -1,0 +1,20 @@
+{% extends "birds/base.html" %}
+{% block content %}
+<h1>Submit Data Form</h1>
+<hr>
+{% if error_message %}<br/><p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="{% url 'birds:submit'%}" method="post">
+{% csrf_token %}
+{% for name in headernames %}
+  {% ifequal name 'datetime' %}
+    <label for="{{ name }}">{{ name }}</label>
+    <input type="text" name="{{ name }}" id="{{ name }}" placeholder="YYYY-MM-DD HH:MM"><br>
+  {% else %}
+  <label for="{{ name }}">{{ name }}</label>
+  <input type="text" name="{{ name }}" id="{{ name }}"><br>
+  {% endifequal %}
+{% endfor %}
+<br />
+<input type="submit" value="Submit">
+</form>
+{% endblock %}

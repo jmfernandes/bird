@@ -1,0 +1,14 @@
+{% extends "birds/base.html" %}
+{% block content %}
+<h1>List of all Feedings</h1>
+<hr>
+{% if latest_feeding_list %}
+    <table summary="no_orderDate">
+    {% for feeding in latest_feeding_list %}
+      <tr><td><li><a href="{% url 'birds:detail' feeding.id %}">{{ feeding.datetime }}</a></li></td><td><a id = "delete" href="{% url 'birds:delete' feeding.id %}">delete entry</a></td></tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No Feedings are available.</p>
+{% endif %}
+{% endblock %}

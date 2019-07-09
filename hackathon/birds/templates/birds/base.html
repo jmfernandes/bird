@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href={% static 'bootstrap/css/bootstrap.min.css' %} integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'birds/style.css' %}">
+  <title>Ala'la Crow</title>
+</head>
+<body>
+<nav class="navbar sticky-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'birds:index'%}">Ala'la Crow Webpage</a>
+  {% if user.is_authenticated %}
+  <div class="navbar-brand">Hi {{ user.username }} </div> <a href="{% url 'logout' %}">Log out</a>
+  {% endif %}
+</nav>
+  {% if user.is_authenticated %}
+<div class="h-100 container-fluid">
+    <div class="h-100 row">
+      <nav class="nav col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 flex-column" style="background-color: #e3f2fd;">
+        <a class="nav-link" href="{% url 'birds:index'%}">&#8226; View All Feedings</a>
+        <a class="nav-link" href="{% url 'birds:retrieve'%}">&#8226; Download the Data</a>
+        <a class="nav-link" href="{% url 'birds:charts'%}">&#8226; Metrics</a>
+        {% if user.is_staff or user.is_admin %}
+        <span class="badge badge-pill badge-dark">Admin Pages</span>
+        <a class="nav-link" href="{% url 'birds:submit'%}">&#8226; Create A New Entry</a>
+        <a class="nav-link" href="{% url 'birds:clear'%}">&#8226; Delete Database Entries</a>
+        <a class="nav-link" href="{% url 'admin:index' %}">&#8226; Admin Page</a>
+        {% endif %}
+      </nav>
+      <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-10 flex-grow-1">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+</div>
+{% else %}
+<h2>Please Sign In To Use Website</h2>
+<hr>
+<!-- <p><a href="{% url 'users:signup' %}">Sign Up</a></p> -->
+<p><a href="{% url 'login' %}">Log In </a></p>
+{% endif %}
+<!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+   <script src={% static 'bootstrap/js/bootstrap.min.js' %} integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
