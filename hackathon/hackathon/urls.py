@@ -19,7 +19,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('birds.urls')),
-    path('users/', include('users.urls')),
-    path('users/', include('django.contrib.auth.urls')),
+    # path('users/', include('users.urls')), #load the urls for signing up
+    path('users/', include('django.contrib.auth.urls')), #provides endpoints for login, logout, and password change
     path('admin/', admin.site.urls),
 ]
