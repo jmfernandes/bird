@@ -17,6 +17,8 @@ from DatabaseFunctions import convert_database_to_csv
 from AlalaFunctions import cleanAndExit, checkRFID, lowPassFilter, actuateServo
 from CameraFunctions import TakeUSBPicture1,TakeUSBPicture2,TakePiPicture, TakeVideo
 from UploadFunctions import upload_data_to_database, upload_images_to_dropbox, upload_data_to_website
+#
+#from Phidget22Python.Phidget22.Devices.RFID import RFID, RFIDTagProtocol
 #===============================================================================#
 
 
@@ -46,6 +48,7 @@ dataDict['OverheadCamera2'] = "None"
 #============================ Initialize Parameters ============================#
 
 #Compression Loadcell = hxcomp1 & hxcomp2, bar load cells are hxbar1 & hxbar2
+#print('before')
 hxcomp1= HX711(17, 27)
 hxcomp2= HX711(16, 20)
 #print("load cell set up")
@@ -54,13 +57,12 @@ hxcomp1.reset()
 #print("first reset done")
 hxcomp1.tare()
 #print("first tare done")
-hxcomp2.set_reference_unit(-33.9) # weight in grams
+hxcomp2.set_reference_unit(-66) # weight in grams
 #print("second ref done")
 hxcomp2.reset()
 #print("second reset done")
 hxcomp2.tare()
-#print("Tare done! Add weight now...")
-
+print("Tare done! Add weight now...")
 
 birdWeightList = []
 hopperWeightList = []
@@ -78,8 +80,8 @@ camera2dev = "video2"
 
 #=============================== Set up GPIO Pins ==============================#
 #GPIO.setmode(GPIO.BCM)
-ledPin = 21 
-buttonPin = 26 
+ledPin = 18
+buttonPin = 4 
 servoPin = 24 #which pin is the servo connected to (besides power and gnd)
 GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(ledPin,GPIO.OUT, initial=0)
@@ -90,7 +92,7 @@ p1 = GPIO.PWM(servoPin, 50) #sets 50hz frequency for servoPin
 
 def my_callback(channel):
     GPIO.output(ledPin,1)
-    print('Callback')
+    #print('Callback')
     try:
         upload_data_to_database(dataList)
         convert_database_to_csv(usbPath,databasePath)
@@ -109,11 +111,19 @@ GPIO.add_event_detect(buttonPin, GPIO.RISING, callback=my_callback, bouncetime=3
 
 #count = 0
 #blah = []
+
+## Actuate servro for a half second to show that the system is ready
+actuateServo(p1,60)
+time.sleep(.5)
+actuateServo(p1,-45)
+
 while running:
-    print(requests.get("http://google.com"))
-    sys.exit()
+    #print(requests.get("http://google.com"))
+    #sys.exit()
+
+    
     try:
-        #val = int(hxcomp1.get_weight(1))
+        val2 = int(hxcomp2.get_weight(1))
         val = int(hxcomp1.get_weight(1))
         #blah.append(val)
         #print(sum(blah)/len(blah))
@@ -122,15 +132,17 @@ while running:
         if (currentTime.hour >= 21):
             print("it's too late to feed the birds")
             if not os.path.exists(usbPath):
-                sys.exit()
+                pass
+                #sys.exit()
         if (val < 0):
             print("value of {} - improper tare".format(val))
             time.sleep(0.1)
-        elif (val <= 100):
+        elif (val <= 20):
             print("value of {}".format(val))
+            print("value of {}".format(val2))
             time.sleep(0.1)
         else:
-            id,text = reader.read_my_id()
+            id,text = reader.read()
             #id = "josh"
             if id:
                 # Get initial data
@@ -140,15 +152,17 @@ while running:
                 # Open hood
                 actuateServo(p1,60)
                 # Take pictures
-                dataDict['RightSideCamera1'] = TakeUSBPicture1(cameraPath,id,timeString,"RightSideCamera1",camera1dev) #video0          
-                dataDict['LeftSideCamera1'] = TakeUSBPicture2(cameraPath,id,timeString,"LeftSideCamera1",camera2dev) #video1              
-                dataDict['OverheadCamera1'] = TakePiPicture(cameraPath,id,timeString,"OverheadCamera1")
+                dataDict['LeftSideCamera1'] = TakeUSBPicture1(cameraPath,id,timeString,"LeftSideCamera1",camera1dev) #video0          
+                dataDict['OverheadCamera1'] = TakeUSBPicture2(cameraPath,id,timeString,"OverheadCamera1",camera2dev) #video1              
+                dataDict['RightSideCamera1'] = TakePiPicture(cameraPath,id,timeString,"RightSideCamera1")
+                print("pictures 1 done")
                 # Get the weight of the bird
                 for n in range(1,30):
                     val = hxcomp1.get_weight(1)
                     birdWeightList.append(val)
                     time.sleep(.1)
                 dataDict['birdWeight']=lowPassFilter(birdWeightList)
+                print("Measured bird weight")
                 birdWeightList.clear()
                 # Get the hopper weight
                 for n in range(1,30):
@@ -157,12 +171,13 @@ while running:
                     time.sleep(.1)
                 dataDict['hopperWeight']=lowPassFilter(hopperWeightList)
                 hopperWeightList.clear()
+                print("Measured hopper weight")
                 # Take video
                 dataDict['video'] = TakeVideo(cameraPath,id,timeString,"video")
                 # Take second round of photos
-                dataDict['RightSideCamera2'] = TakeUSBPicture1(cameraPath,id,timeString,"RightSideCamera2",camera1dev) #video0
-                dataDict['LeftSideCamera2'] = TakeUSBPicture2(cameraPath,id,timeString,"LeftSideCamera2",camera2dev) #video1
-                dataDict['OverheadCamera2'] = TakePiPicture(cameraPath,id,timeString,"OverheadCamera2")
+                dataDict['LeftSideCamera2'] = TakeUSBPicture1(cameraPath,id,timeString,"LeftSideCamera2",camera1dev) #video0
+                dataDict['OverheadCamera2'] = TakeUSBPicture2(cameraPath,id,timeString,"OverheadCamera2",camera2dev) #video1
+                dataDict['RightSideCamera2'] = TakePiPicture(cameraPath,id,timeString,"RightSideCamera2")
                 # Get temperature and rain
                 file = None
                 try:
@@ -175,15 +190,17 @@ while running:
                 except:
                     if file:
                         file.close()
+                print("weather read")
                 # Close the lid
                 while id:
-                    id,text = reader.read_my_id()
+                    id,text = reader.read()
                     time.sleep(5)
                 actuateServo(p1,-45)
                 if (dataDict['RightSideCamera2'] == "None" and dataDict['LeftSideCamera2'] == "None" and dataDict['OverheadCamera2'] == "None" and
                     dataDict['RightSideCamera1'] == "None" and dataDict['LeftSideCamera1'] == "None" and dataDict['OverheadCamera1'] == "None" and
                     dataDict['video'] == "None"):
                     dataDict['filePath'] = "None"
+                print("Done with second round of pictures")
                 # Get feeding duration
                 dataDict['feedingDuration'] = (dt.datetime.now()-currentTime).total_seconds()
                 for n in range(1,30):
@@ -195,12 +212,15 @@ while running:
                 print(dataDict)
                 # Append to List
                 dataList.append(dataDict)
-                sys.exit()
+                upload_images_to_dropbox(dataList)
+                upload_data_to_database(dataList)
+                upload_data_to_website(dataList)
+                #sys.exit()
 
     except (KeyboardInterrupt,SystemExit):
-        upload_images_to_dropbox(dataList)
-        upload_data_to_database(dataList)
-        upload_data_to_website(dataList)
+        #upload_images_to_dropbox(dataList)
+        #upload_data_to_database(dataList)
+        #upload_data_to_website(dataList)
         GPIO.cleanup()
         running = False
 

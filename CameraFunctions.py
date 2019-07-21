@@ -41,7 +41,6 @@ def TakeVideo(cameraPath,RFID,datetime,name):
 #USB Camera 1
     
 def TakeUSBPicture1(cameraPath,RFID,datetime,name,videoName):
-    cam = None
     try:
         #initialise pygame
         pygame.init()
@@ -50,7 +49,7 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name,videoName):
             raise Exception("/dev/{0} does not exist".format(videoName))
         cam = pygame.camera.Camera("/dev/{0}".format(videoName),(width,height))
         cam.start()
-        pygame.display.set_caption('{0}'.format(name))
+        #pygame.display.set_caption('{0}'.format(name))
         #take a picture
         cam.get_image()
         sleep(2)
@@ -66,15 +65,12 @@ def TakeUSBPicture1(cameraPath,RFID,datetime,name,videoName):
         pygame.image.save(image,fileString)
         return(fileString)
     except Exception as e:
-        if cam:
-            cam.stop()
         print("TakeUSBPicture1 error: {0}".format(e))
         return("None")
 
 ################################################################
 #USB Camera 2
 def TakeUSBPicture2(cameraPath,RFID,datetime,name,videoName):
-    cam = None
     try:
         #initialise pygame
         pygame.init()
@@ -98,8 +94,6 @@ def TakeUSBPicture2(cameraPath,RFID,datetime,name,videoName):
         pygame.image.save(image,fileString)
         return(fileString)
     except Exception as e:
-        if cam:
-            cam.stop()
         print("TakeUSBPicture2 error: {0}".format(e))
         return("None")
 
@@ -127,3 +121,5 @@ def TakePiPicture(cameraPath,RFID,datetime,name):
     
 #TakeUSBPicture1('/home/pi/',"test","test","right","video0") #video0          
 #TakeUSBPicture2('/home/pi/',"test","test","left","video2") #video1         
+
+#TakePiPicture('/home/pi',"test","test","pi")

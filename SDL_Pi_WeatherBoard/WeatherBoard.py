@@ -402,7 +402,7 @@ csvFile = open("/home/pi/bird/weather.csv",'wb')
 csvWriter = csv.writer(csvFile, delimiter=",")
 
 myData=[]
-
+counter =0
 
 while True:
 
@@ -582,6 +582,7 @@ while True:
 		HTUhumidity = float(splitstring[1])	
 		print "Temperature = \t%0.2f C" % HTUtemperature
 		print "Humidity = \t%0.2f %%" % HTUhumidity
+		myData.append(HTUtemperature)
 		if (config.OLED_Present):
 			Scroll_SSD1306.addLineOLED(display,  "InTemp = \t%0.2f C" % HTUtemperature)
 	print "----------------- "
@@ -708,7 +709,10 @@ while True:
         myData.append(temperature)
         csvWriter.writerow(myData)
         myData = []
-	print "Sleeping 10 seconds"
-	time.sleep(10.0)
+        if (counter <= 10):
+            time.sleep(1)
+        else:
+            print "Sleeping 1 hour"
+            time.sleep(3600.0)
 
 

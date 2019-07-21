@@ -1,21 +1,27 @@
 #!/bin/bash
 
-#echo "$(ls)"
+insertBefore ()
+{
+    local file="$1" line="$2" newText="$3"
+    sudo sed -i -e "/^$line$/i"'\\n'"$newText"'\n' "$file"
+}
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 TXTFILE="$DIR/test.txt"
+RCFILE="/etc/rc.local"
 
-echo $DIR
-echo $TXTFILE
+MATCHSTRING="masterMain.py"
+EXITSTRING="exit 0"
+PYTHONCOMMAND="sudo python3 $DIR/masterMain.py &"
 
-if [ -e $TXTFILE ]
+if [ -e $RCFILE ]
 then
-  if ( ! grep -q "masterMain.py" $TXTFILE;) then
-    echo "not in there"
+  if ( ! grep -q $MATCHSTRING $RCFILE;) then
+    echo "Adding startup command to $RCFILE"
+    insertBefore $RCFILE "$EXITSTRING" "$PYTHONCOMMAND"
   else
-    echo "is in there"
+    echo "$RCFILE is properly configured."
   fi
 else
-  echo "File Does Not Exist"
+  echo "$RCFILE Does Not Exist"
 fi

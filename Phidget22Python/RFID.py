@@ -143,7 +143,7 @@ def PrintEventDescriptions():
         "\n  | Tag lost events will call their associated function every time a tag is no longer seen by device.\n"
         "  | Press ENTER once you have read this message.\n")
         
-    readin = sys.stdin.readline(1)
+    #readin = sys.stdin.readline(1)
     
     print("\n--------------------")
    
@@ -168,24 +168,25 @@ def main():
         """
         
         #You may remove this line and hard-code the addressing parameters to fit your application
-        channelInfo = AskForDeviceParameters(ch)
+        #channelInfo = AskForDeviceParameters(ch)
+        #564577
         
-        ch.setDeviceSerialNumber(channelInfo.deviceSerialNumber)
-        ch.setHubPort(channelInfo.hubPort)
-        ch.setIsHubPortDevice(channelInfo.isHubPortDevice)
-        ch.setChannel(channelInfo.channel)   
+        ch.setDeviceSerialNumber(564577)
+        ch.setHubPort(-1)
+        ch.setIsHubPortDevice(0)
+        ch.setChannel(0)   
         
-        if(channelInfo.netInfo.isRemote):
-            ch.setIsRemote(channelInfo.netInfo.isRemote)
-            if(channelInfo.netInfo.serverDiscovery):
-                try:
-                    Net.enableServerDiscovery(PhidgetServerType.PHIDGETSERVER_DEVICEREMOTE)
-                except PhidgetException as e:
-                    PrintEnableServerDiscoveryErrorMessage(e)
-                    raise EndProgramSignal("Program Terminated: EnableServerDiscovery Failed")
-            else:
-                Net.addServer("Server", channelInfo.netInfo.hostname,
-                    channelInfo.netInfo.port, channelInfo.netInfo.password, 0)
+        #if(channelInfo.netInfo.isRemote):
+        #    ch.setIsRemote(channelInfo.netInfo.isRemote)
+        #    if(channelInfo.netInfo.serverDiscovery):
+        #        try:
+        #            Net.enableServerDiscovery(PhidgetServerType.PHIDGETSERVER_DEVICEREMOTE)
+        #        except PhidgetException as e:
+        #            PrintEnableServerDiscoveryErrorMessage(e)
+        #            raise EndProgramSignal("Program Terminated: EnableServerDiscovery Failed")
+        #    else:
+        #        Net.addServer("Server", channelInfo.netInfo.hostname,
+        #            channelInfo.netInfo.port, channelInfo.netInfo.password, 0)
         
         """
         * Add event handlers before calling open so that no events are missed.
