@@ -1,13 +1,16 @@
 #!/bin/bash
 
+
 insertBefore ()
 {
     local file="$1" line="$2" newText="$3"
     sudo sed -i -e "/^$line$/i"'\\n'"$newText"'\n' "$file"
 }
 
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 TXTFILE="$DIR/test.txt"
+REQFILE="$DIR/requirements.txt"
 RCFILE="/etc/rc.local"
 
 MATCHSTRING="masterMain.py"
@@ -25,3 +28,7 @@ then
 else
   echo "$RCFILE Does Not Exist"
 fi
+
+####################
+
+#pip3 install -r $REQFILE
